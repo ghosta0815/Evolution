@@ -1,9 +1,11 @@
+"""This script starts an evolutionary algorithm with a GUI"""
+
 import sys
 from PyQt5 import QtWidgets
-from View.MainWindow import *
+from View.main_window import MainWindow
 
 
 if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
+    APP = QtWidgets.QApplication(sys.argv)
     GUI = MainWindow()
-    sys.exit(app.exec_())
+    sys.exit(APP.exec_())
