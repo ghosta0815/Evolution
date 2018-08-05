@@ -3,14 +3,16 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>0209d93c-373f-4836-ba5b-0d191f9f3914</ProjectGuid>
-    <ProjectHome>.</ProjectHome>
-    <StartupFile>FirstPython.py</StartupFile>
+    <ProjectHome>
+    </ProjectHome>
+    <StartupFile>Evolution.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>FirstPython</Name>
+    <Name>Evolution</Name>
     <RootNamespace>FirstPython</RootNamespace>
+    <InterpreterId>Global|ContinuumAnalytics|Anaconda36-64</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +23,24 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FirstPython.py" />
+    <Compile Include="Evolution.py" />
+    <Compile Include="Scripts\ConvertUIsScript.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\MainWindow.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\Ui_MainWindow.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|ContinuumAnalytics|Anaconda36-64" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\" />
+    <Folder Include="View\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="View\MainWindow.ui" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
