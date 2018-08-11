@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>762</width>
+    <height>795</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,6 +21,20 @@
        <widget class="QPushButton" name="start_button">
         <property name="text">
          <string>Start</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="one_iteration_button">
+        <property name="text">
+         <string>Next Iteration</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="fast_forward_button">
+        <property name="text">
+         <string>Fast Forward</string>
         </property>
        </widget>
       </item>
@@ -47,11 +61,18 @@
      </layout>
     </item>
     <item row="0" column="4">
-     <widget class="QGraphicsView" name="display_graphics"/>
+     <widget class="GraphicsViewCanvas" name="display_graphics"/>
     </item>
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GraphicsViewCanvas</class>
+   <extends>QGraphicsView</extends>
+   <header>/View/graphics_view_canvas</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
