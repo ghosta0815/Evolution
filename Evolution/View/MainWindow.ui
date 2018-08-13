@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>762</width>
-    <height>795</height>
+    <width>573</width>
+    <height>583</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,6 +35,9 @@
        <widget class="QPushButton" name="fast_forward_button">
         <property name="text">
          <string>Fast Forward</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

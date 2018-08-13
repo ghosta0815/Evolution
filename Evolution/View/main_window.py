@@ -4,6 +4,7 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QMainWindow
 from View.Ui_MainWindow import Ui_MainWindow
 from Model.game_engine import GameEngine
+from Model.iteration_thread import IterationThread
 
 
 class MainWindow(QMainWindow):
@@ -16,6 +17,9 @@ class MainWindow(QMainWindow):
     def _init_model(self):
         """sets up the model"""
         self.eng = GameEngine()
+        self.iteration_thread = IterationThread(self.eng)
+        self.iteration_thread.finished_signal.connect(self.draw_board)
+        self.restarter = None
 
     def _init_ui(self):
         """Sets up the UI"""
@@ -24,30 +28,37 @@ class MainWindow(QMainWindow):
 
         self.ui.quit_button.clicked.connect(self.quit_application)
         self.ui.start_button.clicked.connect(self.draw_board)
-        self.ui.one_iteration_button.clicked.connect(self.iterate_and_draw)
-        self.ui.fast_forward_button.clicked.connect(self.continuous_update)
+        self.ui.one_iteration_button.clicked.connect(self.start_one_iteration)
+        self.ui.fast_forward_button.clicked.connect(self.continuous_iteration)
         self.show()
 
     def draw_board(self):
         """Draws the current state of the board"""
-        self.ui.display_graphics.draw_scene(self.eng.board, self.eng.pool)
+        self.ui.display_graphics.draw_scene(self.eng.board, self.eng.pool, self.eng.info_text())
 
-    def iterate_and_draw(self):
+    def start_one_iteration(self):
         """Iterates one step and draws the board"""
-        self.eng.iterate()
-        self.draw_board()
+        self.iteration_thread.start()
 
-    def continuous_update(self):
-        """Continuously updates the board
+    def continuous_iteration(self):
+        """Based on the ffwd toggle button continuously restarts the iteration thread"""
+        if self.ui.fast_forward_button.isChecked():
+            self.iteration_thread.finished_signal.connect(self.restart_iteration_thread)
+            self.iteration_thread.start()
+        else:
+            self.iteration_thread.finished_signal.disconnect(self.restart_iteration_thread)
 
-        The Window freezes with this function call 
-        --> move it to a different thread with signaling"""
-        for i in range(self.eng.iteration_max - self.eng.iteration_counter):
-            self.iterate_and_draw()
-            self.repaint()
-            # time.sleep(0.2)
-            print("Iteration: " + str(i))
+    def restart_iteration_thread(self):
+        """Restarts the iteration thread"""
+        if self.eng.iteration_counter >= self.eng.iteration_max:
+            self.ui.fast_forward_button.setChecked(False)
+
+        print(str(self.ui.fast_forward_button.isChecked()))
+        if self.ui.fast_forward_button.isChecked():
+            print(str("Restarting Thread"))
+            self.iteration_thread.start()
 
     def quit_application(self):
         """Quits the application"""
         QtCore.QCoreApplication.quit()
+

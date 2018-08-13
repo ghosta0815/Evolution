@@ -8,21 +8,30 @@ class GraphicsViewCanvas(QtWidgets.QGraphicsView):
         super().__init__(container)
         self.dot_size = 4
 
-    def draw_scene(self, board, dot_list):
+    def draw_scene(self, board, dot_list, info_text):
         """Draws the complete scene"""
         self.scene = QtWidgets.QGraphicsScene(self)
         self.scene.clear()
         self.draw_boundaries(board.width, board.height)
         self.draw_dots(dot_list)
+        self.draw_text(info_text, -board.width/2, board.height/2)
         self.setScene(self.scene)
 
     def draw_boundaries(self, width, height):
         """Draws the boundary frame of the field"""
-        self.scene.addItem(QtWidgets.QGraphicsRectItem(-width/2, -height/2, width, height))
+        self.scene.addItem(QtWidgets.QGraphicsRectItem(
+            -width/2-self.dot_size/2, -height/2-self.dot_size/2, 
+            width+self.dot_size/2, height+self.dot_size/2))
 
     def draw_dots(self, dot_list):
         """Draws the dots at the given positions"""
         for dot in dot_list:
             self.scene.addItem(
                 QtWidgets.QGraphicsEllipseItem(
-                    dot.pos_x, dot.pos_y, self.dot_size, self.dot_size))
+                    dot.pos_x-self.dot_size/2, -dot.pos_y-self.dot_size/2, self.dot_size, self.dot_size))
+
+    def draw_text(self, info_text, pos_x, pos_y):
+        """Draws some text on the canvas"""
+        text_item = QtWidgets.QGraphicsSimpleTextItem(info_text)
+        text_item.setPos(pos_x, -pos_y)
+        self.scene.addItem(text_item)
