@@ -14,13 +14,19 @@ class GraphicsViewCanvas(QtWidgets.QGraphicsView):
         self.scene.clear()
         self.draw_boundaries(board.width, board.height)
         self.draw_dots(dot_list)
+        self.draw_target(board.target)
         self.draw_text(info_text, -board.width/2, board.height/2)
         self.setScene(self.scene)
+
+    def draw_target(self, target):
+        """Draws the target"""
+        target_ellipse = QtWidgets.QGraphicsEllipseItem(target.pos_x - 3, -target.pos_y - 3, 6, 6)
+        self.scene.addItem(target_ellipse)
 
     def draw_boundaries(self, width, height):
         """Draws the boundary frame of the field"""
         self.scene.addItem(QtWidgets.QGraphicsRectItem(
-            -width/2-self.dot_size/2, -height/2-self.dot_size/2, 
+            -width/2-self.dot_size/2, -height/2-self.dot_size/2,
             width+self.dot_size/2, height+self.dot_size/2))
 
     def draw_dots(self, dot_list):
@@ -28,7 +34,10 @@ class GraphicsViewCanvas(QtWidgets.QGraphicsView):
         for dot in dot_list:
             self.scene.addItem(
                 QtWidgets.QGraphicsEllipseItem(
-                    dot.pos_x-self.dot_size/2, -dot.pos_y-self.dot_size/2, self.dot_size, self.dot_size))
+                    dot.pos_x-self.dot_size/2,
+                    -dot.pos_y-self.dot_size/2,
+                    self.dot_size,
+                    self.dot_size))
 
     def draw_text(self, info_text, pos_x, pos_y):
         """Draws some text on the canvas"""

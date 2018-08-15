@@ -28,6 +28,9 @@ class Ui_MainWindow(object):
         self.fast_forward_button.setCheckable(True)
         self.fast_forward_button.setObjectName("fast_forward_button")
         self.verticalLayout.addWidget(self.fast_forward_button)
+        self.next_generation_button = QtWidgets.QPushButton(self.centralwidget)
+        self.next_generation_button.setObjectName("next_generation_button")
+        self.verticalLayout.addWidget(self.next_generation_button)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem)
         self.quit_button = QtWidgets.QPushButton(self.centralwidget)
@@ -48,6 +51,7 @@ class Ui_MainWindow(object):
         self.start_button.setText(_translate("MainWindow", "Start"))
         self.one_iteration_button.setText(_translate("MainWindow", "Next Iteration"))
         self.fast_forward_button.setText(_translate("MainWindow", "Fast Forward"))
+        self.next_generation_button.setText(_translate("MainWindow", "Next Generation"))
         self.quit_button.setText(_translate("MainWindow", "Quit"))
 
 from View.graphics_view_canvas import GraphicsViewCanvas

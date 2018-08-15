@@ -5,3 +5,6 @@ ignore=Ui_MainWindow.py
 [BASIC]
 # Names that are allowed
 good-names=i,j,k,x,y,ui
+
+[VARIABLES]
+--dummy-variables-rgx=dummy

@@ -2,7 +2,6 @@
 import random
 import math
 from enum import Enum
-from Model.target import Target
 
 class Direction(Enum):
     """Enum that represents directions"""
@@ -16,9 +15,11 @@ class Dot():
 
     def __init__(self, startpos_x, startpos_y, movement_speed):
         self.fitness = 0
-        self.mutation_strength = 0.01
+        self.mutation_strength = 0.05
 
         self.movement_counter = 0
+        self.start_pos_x = startpos_x
+        self.start_pos_y = startpos_y
         self.pos_x = startpos_x
         self.pos_y = startpos_y
         self.movement_speed = movement_speed
@@ -30,13 +31,17 @@ class Dot():
 
     def mutate(self):
         """Mutates the Dot's movement_directions"""
+        self.pos_x = self.start_pos_x
+        self.pos_y = self.start_pos_y
+        self.movement_counter = 0
         for i in range(len(self.movement_directions)):
             if random.random() < self.mutation_strength:
                 self.movement_directions[i] = random.choice(list(Direction))
 
     def calculate_fitness(self, target):
         """Calculates the fitness based on the distance to a target"""
-        self.fitness = math.sqrt((target.pos_x - self.pos_x)**2 + (target.pos_y - self.pos_y)**2)
+        self.fitness = 1/(math.sqrt((target.pos_x - self.pos_x)**2 \
+            + (target.pos_y - self.pos_y)**2) + 1)
 
     def move(self, board):
         """Moves the dot on the board, based on the trained movement directions"""

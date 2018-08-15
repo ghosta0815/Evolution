@@ -30,6 +30,7 @@ class MainWindow(QMainWindow):
         self.ui.start_button.clicked.connect(self.draw_board)
         self.ui.one_iteration_button.clicked.connect(self.start_one_iteration)
         self.ui.fast_forward_button.clicked.connect(self.continuous_iteration)
+        self.ui.next_generation_button.clicked.connect(self.calculate_next_generation)
         self.show()
 
     def draw_board(self):
@@ -51,14 +52,20 @@ class MainWindow(QMainWindow):
     def restart_iteration_thread(self):
         """Restarts the iteration thread"""
         if self.eng.iteration_counter >= self.eng.iteration_max:
-            self.ui.fast_forward_button.setChecked(False)
+            self.eng.generate_new_generation()
 
-        print(str(self.ui.fast_forward_button.isChecked()))
+        while self.iteration_thread.isRunning():
+            time.sleep(0.1)
+            # print("I have slept a bit, thread is still running? " + str(self.iteration_thread.isRunning()))
+
         if self.ui.fast_forward_button.isChecked():
-            print(str("Restarting Thread"))
             self.iteration_thread.start()
 
-    def quit_application(self):
+    def calculate_next_generation(self):
+        """Calculates the next generation"""
+        self.eng.generate_new_generation()
+
+    @staticmethod
+    def quit_application():
         """Quits the application"""
         QtCore.QCoreApplication.quit()
-
