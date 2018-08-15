@@ -12,7 +12,7 @@ class GraphicsViewCanvas(QtWidgets.QGraphicsView):
         """Draws the complete scene"""
         self.scene = QtWidgets.QGraphicsScene(self)
         self.scene.clear()
-        self.draw_boundaries(board.width, board.height)
+        self.draw_boundaries(board)
         self.draw_dots(dot_list)
         self.draw_target(board.target)
         self.draw_text(info_text, -board.width/2, board.height/2)
@@ -23,11 +23,17 @@ class GraphicsViewCanvas(QtWidgets.QGraphicsView):
         target_ellipse = QtWidgets.QGraphicsEllipseItem(target.pos_x - 3, -target.pos_y - 3, 6, 6)
         self.scene.addItem(target_ellipse)
 
-    def draw_boundaries(self, width, height):
+    def draw_boundaries(self, board):
         """Draws the boundary frame of the field"""
+        width = board.width
+        height = board.height
         self.scene.addItem(QtWidgets.QGraphicsRectItem(
             -width/2-self.dot_size/2, -height/2-self.dot_size/2,
             width+self.dot_size/2, height+self.dot_size/2))
+        for obstacle in board.obstacles:
+            self.scene.addItem(QtWidgets.QGraphicsRectItem(
+                obstacle.left, -obstacle.top, obstacle.right-obstacle.left, -obstacle.bot+obstacle.top
+            ))
 
     def draw_dots(self, dot_list):
         """Draws the dots at the given positions"""
